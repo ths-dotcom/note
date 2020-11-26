@@ -14,7 +14,7 @@ vector<int> DijkstraMinFormX(int x, vector< vector<int> > C, int n)
         if(i!=x) D[i] = C[x][i];
     }
     do {
-        int y, del, min = vo_cung;
+        int y, del, min = INT_MAX;
         for (int i=0; i<X_S.size(); i++) {
             if (D[X_S[i]] < min) {
                 min = D[X_S[i]];
@@ -78,5 +78,16 @@ int main()
 
     //cin >> x >> y;
     vector<int> D = DijkstraMinFormX(x,C,n);
-    cout << D[y];
+    vector<int> way= DijkstraWayFormX(x,C,n);
+    cout << D[y] << endl;
+
+    while(true){
+        if(y==x){
+            cout << x;
+            break;
+        }
+        else cout << y << " <- " ;
+        y= way[y];
+    }
+    cout << endl;
 }
