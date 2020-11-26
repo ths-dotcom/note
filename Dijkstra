@@ -1,18 +1,20 @@
 #include <bits/stdc++.h>
+#define vo_cung 100000
 
 using namespace std;
 
-vector<int> DijkstraMinFormX(int x, vector <vector<int>> C, int n) {
+vector<int> DijkstraMinFormX(int x, vector< vector<int> > C, int n)
+{
     vector<int> X_S;
     for (int i=1; i<=n; i++) {
         if (i!=x) X_S.push_back(i);
     }
-    vector<int> D(n+1);
+    vector<int> D(n+1, 0);
     for (int i=1; i<=n; i++) {
         if(i!=x) D[i] = C[x][i];
     }
     do {
-        int y, del, min = 9999;
+        int y, del, min = vo_cung;
         for (int i=0; i<X_S.size(); i++) {
             if (D[X_S[i]] < min) {
                 min = D[X_S[i]];
@@ -27,7 +29,9 @@ vector<int> DijkstraMinFormX(int x, vector <vector<int>> C, int n) {
     }while(X_S.size()!=0);
     return D;
 }
-vector<int> DijkstraWayFormX(int x, vector <vector<int>> C, int n) {
+
+vector<int> DijkstraWayFormX(int x, vector< vector<int> > C, int n)
+{
     vector<int> X_S;
     vector<int> Way(n+1);
     for (int i=1; i<=n; i++) {
@@ -56,25 +60,23 @@ vector<int> DijkstraWayFormX(int x, vector <vector<int>> C, int n) {
     }while(X_S.size()!=0);
     return Way;
 }
-int main() {
+
+
+int main()
+{
     int n, m;
     cin >> n >> m;
     int x, y;
     cin >> x >> y;
-    vector <vector<int>> C;
-    C.resize(n+1);
-    for(int i=1; i<=n; i++) {
-        C[i].resize(n+1);
-        for(int j=1; j<=n; j++) {
-            C[i][j]=5000;
-        }
-    }
+    vector< vector<int> > C(n+1, vector<int>(n+1, vo_cung));
     int a1,a2,a3;
     for(int i=0; i<m; i++) {
         cin >> a1 >> a2 >> a3;
         C[a1][a2] = a3;
         C[a2][a1] = a3;
     }
+
+    //cin >> x >> y;
     vector<int> D = DijkstraMinFormX(x,C,n);
     cout << D[y];
 }
