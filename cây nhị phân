@@ -1,0 +1,98 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+struct Node{
+    int data;
+    Node *pLeft;
+    Node *pRight;
+};
+
+Node* createNode(int a)
+{
+    Node *ptr= new Node;
+    ptr->data= a;
+    ptr->pLeft= NULL;
+    ptr->pRight= NULL;
+    return ptr;
+}
+
+void addNode(Node* &root, Node* ptr)
+{
+    if(root){
+        if(ptr->data == root->data) return;
+        else if(ptr->data < root->data) addNode(root->pLeft, ptr);
+        else addNode(root->pRight, ptr);
+    }
+    else{
+        root= ptr;
+    }
+}
+
+Node* searchNode(Node* root, int a)
+{
+    if(!root) return NULL;
+    if(root->data == a) return root;
+    else if(root->data < a ) return searchNode(root->pRight, a);
+    else searchNode(root->pLeft, a);
+    return NULL;
+}
+
+Node* findAndReplace(Node *&root)
+{
+    while(root->pLeft!=NULL) root= root->pLeft;
+    Node *ptr= root;
+    root= root->pRight;
+    return ptr;
+}
+
+void deleteNode(Node* &root, int a)
+{
+    if(root){
+        if(root->data < a) deleteNode(root->pRight, a);
+        else if(root->data > a) deleteNode(root->pLeft, a);
+        else{
+            if(root->pLeft==NULL) root= root->pRight;
+            else if(root->pRight==NULL) root= root->pLeft;
+            else{
+                Node *ptr= findAndReplace(root->pRight);
+                root->data= ptr->data;
+                delete ptr;
+            }
+        }
+    }
+}
+
+void display(Node* root)
+{
+    if(root){
+        cout << root->data << " ";
+        display(root->pLeft);
+        display(root->pRight);
+    }
+}
+
+int main()
+{
+    Node *root= NULL;
+    int n, i, a;
+    cin >> n;
+    for(i=0;i<n;++i){
+        cin >> a;
+        Node* ptr= createNode(a);
+        addNode(root, ptr);
+    }
+    display(root);
+/*
+    cout << endl << "Tim: " ;
+    cin >> a;
+    if(searchNode(root, a)) cout << searchNode(root, a)->data << endl;
+    else cout << "Khong tim thay" ;
+*/
+    cout << endl <<"Xoa: " ;
+    cin >> a;
+    deleteNode(root, a);
+    display(root);
+
+    return 0;
+}
