@@ -1,0 +1,140 @@
+//Code bảng băm dùng danh sách liên kết
+
+#include<bits/stdc++.h>
+#define M 10
+
+using namespace std;
+
+struct Node{
+    int data;
+    Node *pNext;
+};
+
+typedef Node* HashTable;
+
+void InitHashTable(HashTable ht[])
+{
+    for(int i=0;i<M;++i){
+        ht[i]= NULL;
+    }
+}
+
+bool checkInit(HashTable ht[])
+{
+    for(int i=0;i<M;++i){
+        if(ht[i]!=NULL) return false;
+    }
+    return true;
+}
+
+int hashFunction(int a)
+{
+    return a%M;
+}
+
+Node* createNode(int a)
+{
+    Node* ptr= new Node;
+    ptr->data= a;
+    ptr->pNext= NULL;
+    return ptr;
+}
+
+void addTail(Node *&node, int value)
+{
+    Node* ptr= createNode(value);
+    Node* k= node;
+    if(k==NULL) {
+        node= ptr;
+        return;
+    }
+    while(k->pNext!=NULL){
+        k= k->pNext;
+    }
+    k->pNext= ptr;
+}
+
+void insertNode(HashTable ht[], int a)
+{
+    int key= hashFunction(a);
+    addTail(ht[key], a);
+}
+
+Node* searchNode(HashTable ht[], int a)
+{
+    int key= hashFunction(a);
+    Node* k= ht[key];
+    if(k==NULL) return NULL;
+    while(k!=NULL && k->data!=a){
+        k= k->pNext;
+    }
+    return k;
+}
+
+void display(HashTable ht[])
+{
+    for(int i=0;i<M;++i){
+        if(ht[i]) {
+            Node *k= ht[i];
+            while(k){
+                cout << k->data << " ";
+                k= k->pNext;
+            }
+            cout << endl;
+        }
+        else cout << "NULL" << endl;
+    }
+}
+
+void remove(Node *&node, int a)
+{
+    if(node==NULL) return ;
+
+    Node* k= node;
+    if(node->data==a){
+        Node* ptr= node;
+        node= node->pNext;
+        delete ptr;
+        return ;
+    }
+    while(k->pNext!=NULL && k->pNext->data!=a){
+        Node* ptr= k->pNext;
+        k->pNext= k->pNext->pNext;
+        delete ptr;
+        return ;
+    }
+}
+
+void deleteNode(HashTable ht[], int a)
+{
+    int key= hashFunction(a);
+    remove(ht[key], a);
+}
+
+int main()
+{
+    HashTable ht[M];
+    InitHashTable(ht);
+    int n, i, a;
+    cin >> n;
+
+    for(i=0;i<n;++i){
+        cin >> a;
+        insertNode(ht, a);
+    }
+    display(ht);
+    cout << endl << "Tim: " ;
+    cin >> a;
+    Node *ptr= searchNode(ht, a);
+    if(!ptr) {
+        cout << "Khong tim thay" << endl;
+    }
+    else cout << ptr->data << endl;
+
+    cout << endl << "Xoa: ";
+    cin >> a;
+    deleteNode(ht, a);
+    display(ht);
+    
+    
+}
