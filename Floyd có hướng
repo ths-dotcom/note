@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+#define vo_cung 100000
+
+using namespace std;
+
+vector< vector<int> > Floyd(vector< vector<int> >D, int n)
+{
+    for(int k=1;k<=n;++k){
+        for(int i=1;i<=n;++i){
+            for(int j=1;j<=n;++j){
+                if(D[i][j] > D[i][k] + D[k][j]) D[i][j]= D[i][k] + D[k][j];
+            }
+        }
+    }
+    return D;
+}
+
+int main()
+{
+    int i, n, m, x, y, d, j;
+    cin >> n >> m;
+    vector< vector<int> > v(n+1, vector<int>(n+1, vo_cung));
+    for(i=1;i<=n;++i) v[i][i]= 0;
+    for(i=0;i<m;++i){
+        cin >> x >> y >> d;
+        v[x][y]= d;
+    }
+    vector< vector<int> > D= v;
+    D= Floyd(D, n);
+
+    cout << endl;
+    for(i=1;i<=n;++i){
+        for(j=1;j<=n;++j) cout << D[i][j] << " ";
+        cout << endl;
+    }
+
+    return 0;
+}
