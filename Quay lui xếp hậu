@@ -36,6 +36,7 @@ int main()
     int n;
     cout << "Nhap n (n>=4): ";
     cin >> n;
+    //i là hàng, arr[i] là cột đó (i, arr[i]);
     int arr[MAX];
     backTrack(arr, n, 1);
 
