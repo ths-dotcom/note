@@ -30,6 +30,8 @@ vector<int> DijkstraMinFormX(int x, vector< vector<int> > C, int n)
     return D;
 }
 
+
+// có vẻ có Bug
 vector<int> DijkstraWayFormX(int x, vector< vector<int> > C, int n)
 {
     vector<int> X_S;
